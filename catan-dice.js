@@ -26,9 +26,8 @@ function rollDoubleDice() {
 let testRand = (testRuns) => {
   let countObj = {};
   for (let count = 0; count < testRuns; count++) {
-    let value = rollDoubleDice();
-    
-    Object.hasOwn(countObj, value) ? countObj[value] += 1 : countObj[value] = 1;    
+    let value = rollDoubleDice();    
+    Object.hasOwn(countObj, value) ? countObj[value] += 1 : countObj[value] = 1;   
   }
   return countObj;
 }

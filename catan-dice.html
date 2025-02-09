@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html style="background-color: #9c4300;">
+<head>
+</head>
+<h1 style="font-size:12vw; text-align: center; color: #f0ad00; text-shadow: 2px 2px black;">
+  CATAN Dice
+  <br>
+</h1>
+<meta meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<div class="flex-container" style="display: flex; flex-wrap: wrap; text-align: center; justify-content: center; gap: 1vw; ">
+  <button id="cardButton" onclick="displayCards()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 8vw; border-color: black;">Cards</button>
+  <button id="diceButton" onclick="getRolledDice()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 10vw; border-color: black;">Dice</button>
+  <button id="resetButton" onclick="reset()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 8vw; border-color: black;">Reset</button>
+</div>
+<br>
+<br>
+<div class="flex-container">
+  <div id="row1" style="padding: 1vw 5vw; font-size:10vw; text-align: center; color: #f0ad00; font-weight: bold; text-shadow: 2px 2px black;"></div>
+  <div id="row2" style="padding: 1vw 10vw; padding-bottom: 3vw; font-size:7vw; text-align: center; color: #f0ad00;"></div>
+  <div id="row3" style="padding: 4vw 10vw; font-size:7vw; text-align: center; color: #f0ad00;"></div>
+  <div id="row4" style="padding: 4vw 10vw; font-size:7vw; text-align: center; color: #f0ad00;"></div>
+</div>
+<script>
+  // ---- Reverse Button for misclicks
+  // ---- round counter
+  // ---- cards left
+const MAX_DECKSIZE = 36;
+let discardPile = [];
+let newDeck = getDiceCards();
+
+  function getRandomInt(max, plusOne) {
+    return plusOne ? Math.floor(Math.random() * max) + 1 : Math.floor(Math.random() * max);
+  }
+
+  function getDiceCards() {
+    let diceArray = [];
+    for (let firstDice = 1; firstDice <= 6; firstDice++) {
+      for (let secondDice = 1; secondDice <= 6; secondDice++) {
+        diceArray.push(firstDice + secondDice);
+      }
+    }
+    return diceArray;
+  }
+
+  function drawRandomCard(diceCards) {
+    if(diceCards.length === 0) { return 'No Cards left'}
+    let randomNum = getRandomInt(diceCards.length, false)
+    let cardDrawn = diceCards[randomNum];
+    diceCards.splice(randomNum, 1);
+    discardPile.push(' ' + cardDrawn);
+    return cardDrawn;
+  }
+  
+  let diceCards = getDiceCards();
+
+  //------------------------------------------------------------------------
+
+  function rollDoubleDice() {
+
+    let diceArray = [getRandomInt(6, true), getRandomInt(6, true)]
+    diceArray.push(diceArray[0] + diceArray[1]);
+    return diceArray;
+  }
+
+  //------------------------------------------------------------------------
+
+  function getRolledDice() {
+    let [num1, num2, sum] = rollDoubleDice();
+    document.getElementById("row1").innerHTML = `${sum}`;  
+    document.getElementById("row2").innerHTML = `${num1} + ${num2}=`; 
+    document.getElementById("row3").innerHTML = '';
+    document.getElementById("row4").innerHTML = '';
+  }
+
+  function displayCards() {  
+    document.getElementById("row1").innerHTML = `Current Card: ${'<br>' + drawRandomCard(newDeck)}`;
+    document.getElementById("row2").innerHTML = `Cards drawn: ${discardPile.length}`;
+    document.getElementById("row3").innerHTML = `Cards left: ${MAX_DECKSIZE - discardPile.length}`;
+    document.getElementById("row4").innerHTML = `Discard pile: ${'<br>' + discardPile.slice(0, 6) + '<br>' + discardPile.slice(6, 12) + '<br>' + discardPile.slice(12, 18) + '<br>' + discardPile.slice(18, 24) + '<br>' + discardPile.slice(24, 30) + '<br>' + discardPile.slice(30, 36) }`;
+    
+  }
+  
+  function reset() {
+    newDeck = getDiceCards();
+    discardPile = [];
+    document.getElementById("row1").innerHTML = '';
+    document.getElementById("row2").innerHTML = '';
+    document.getElementById("row3").innerHTML = '';
+    document.getElementById("row4").innerHTML = '';
+
+  }
+
+</script> 
+
+</script>
