@@ -9,9 +9,9 @@
 <meta meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <div class="flex-container" style="display: flex; flex-wrap: wrap; text-align: center; justify-content: center; gap: 1vw; ">
-  <button id="cardButton" onclick="displayCards()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 8vw; border-color: black;">Cards</button>
-  <button id="diceButton" onclick="getRolledDice()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 10vw; border-color: black;">Dice</button>
-  <button id="resetButton" onclick="reset()" style="font-size:7vw; width: 30vw; height: 15vw; background-color: #4fa6eb; border-radius: 8vw; border-color: black;">Reset</button>
+  <button id="cardButton" onclick="displayCards()" style="font-size:7vw; width: 30vw; height: 15vw; background-color:  #7b7c47 ; border-radius: 8vw; border-style: solid; border-width: 0.5vw; border-color: black;">Cards</button>
+  <button id="diceButton" onclick="getRolledDice()" style="font-size:7vw; width: 30vw; height: 15vw; background-color:  #7b7c47 ; border-radius: 10vw; border-style: solid; border-width: 0.5vw; border-color: black;">Dice</button>
+  <button id="resetButton" onclick="reset()" style="font-size:7vw; width: 30vw; height: 15vw; background-color:  #7b7c47 ; border-radius: 8vw; border-style: solid; border-width: 0.5vw; border-color: black;">Reset</button>
 </div>
 <br>
 <br>
@@ -64,26 +64,28 @@ let newDeck = getDiceCards();
   }
 
   //------------------------------------------------------------------------
-
+  
   function getRolledDice() {
     let [num1, num2, sum] = rollDoubleDice();
     document.getElementById("row1").innerHTML = `${sum}`;  
-    document.getElementById("row2").innerHTML = `${num1} + ${num2}=`; 
+    document.getElementById("row2").innerHTML = `(${num1} + ${num2})`; 
     document.getElementById("row3").innerHTML = '';
     document.getElementById("row4").innerHTML = '';
   }
 
   function displayCards() {  
+    document.getElementById("row4").innerHTML = `Discard pile: ${'<br>' + discardPile.slice(0, 6) + '<br>' + discardPile.slice(6, 12) + '<br>' + discardPile.slice(12, 18) + '<br>' + discardPile.slice(18, 24) + '<br>' + discardPile.slice(24, 30) + '<br>' + discardPile.slice(30, 36) }`;
     document.getElementById("row1").innerHTML = `Current Card: ${'<br>' + drawRandomCard(newDeck)}`;
     document.getElementById("row2").innerHTML = `Cards drawn: ${discardPile.length}`;
-    document.getElementById("row3").innerHTML = `Cards left: ${MAX_DECKSIZE - discardPile.length}`;
-    document.getElementById("row4").innerHTML = `Discard pile: ${'<br>' + discardPile.slice(0, 6) + '<br>' + discardPile.slice(6, 12) + '<br>' + discardPile.slice(12, 18) + '<br>' + discardPile.slice(18, 24) + '<br>' + discardPile.slice(24, 30) + '<br>' + discardPile.slice(30, 36) }`;
-    
+    document.getElementById("row3").innerHTML = `Cards left: ${MAX_DECKSIZE - discardPile.length}`;    
   }
   
   function reset() {
     newDeck = getDiceCards();
     discardPile = [];
+    
+    document.getElementById("diceButton").onclick = function() { getRolledDice() }
+    document.getElementById("diceButton").innerHTML = "Dice";
     document.getElementById("row1").innerHTML = '';
     document.getElementById("row2").innerHTML = '';
     document.getElementById("row3").innerHTML = '';
